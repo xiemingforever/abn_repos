@@ -2,10 +2,7 @@ package com.apprecipe.abngit.ui.list
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material3.Surface
@@ -60,6 +57,7 @@ fun RepoCard(
 ) {
     Row(
         modifier = Modifier
+            .fillMaxWidth()
             .clickable(onClick = { navigateToDetails(repo) })
     ) {
         if (repo.avatarUrl != null) {

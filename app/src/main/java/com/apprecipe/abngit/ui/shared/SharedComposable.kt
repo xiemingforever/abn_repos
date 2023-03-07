@@ -24,7 +24,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun connectivityState(): State<ConnectionState> {
     val context = LocalContext.current
-    return context.observeConnectivityAsFlow().collectAsState(initial = ConnectionState.Unavailable)
+    return context.observeConnectivityAsFlow().collectAsState(initial = ConnectionState.Available)
 }
 
 @Composable

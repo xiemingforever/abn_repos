@@ -1,6 +1,7 @@
 package com.apprecipe.abngit.di
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Room
 import com.apprecipe.abngit.data.database.AbnRepoDb
 import com.apprecipe.abngit.data.network.GitHubApi
@@ -10,6 +11,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -22,7 +24,13 @@ class AppModule {
     @Provides
     fun provideGitHubApi(): GitHubApi {
         val baseUrl = "https://api.github.com/users/abnamrocoesd/"
-        val client = OkHttpClient.Builder().build()
+
+        val logger = HttpLoggingInterceptor { Log.d("GitHubApi", it) }
+        logger.level = HttpLoggingInterceptor.Level.BASIC
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logger)
+            .build()
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(client)
