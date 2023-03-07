@@ -12,10 +12,10 @@ interface RepoDao {
     fun loadAllRepos(): List<RepoEntity>
 
     @Query("SELECT * FROM repos WHERE id = :id")
-    fun findRepoById(id: Int): RepoEntity
+    suspend fun findRepoById(id: Int): RepoEntity
 
-//    @Query("SELECT * FROM repos")
-//    fun pagingSource(): PagingSource<Int, RepoEntity>
+    @Query("SELECT * FROM repos")
+    fun pagingSource(): PagingSource<Int, RepoEntity>
 
     @Query("DELETE FROM repos")
     suspend fun clearAll()

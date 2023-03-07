@@ -42,7 +42,7 @@ class ReposRemoteMediator(
                         )
                     }
 
-                    lastItem.page
+                    lastItem.page + 1
                 }
             }
 

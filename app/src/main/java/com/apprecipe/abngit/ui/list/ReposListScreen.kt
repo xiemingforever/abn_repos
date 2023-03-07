@@ -1,19 +1,25 @@
 package com.apprecipe.abngit.ui.list
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.apprecipe.abngit.data.database.RepoEntity
 import com.apprecipe.abngit.ui.shared.ConnectivityStatusBar
 import com.apprecipe.abngit.ui.shared.connectivityState
-import com.apprecipe.abngit.ui.theme.ReposListUiState
-import com.apprecipe.abngit.ui.theme.ReposListViewModel
 import com.apprecipe.abngit.utils.ConnectionState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -24,7 +30,8 @@ fun ReposListScreen(
     onListItemClick: (RepoEntity) -> Unit,
     viewModel: ReposListViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val repos = viewModel.getRepos().collectAsLazyPagingItems()
+//    val uiState by viewModel.uiState.collectAsState()
     val connection by connectivityState()
     val isConnected = connection == ConnectionState.Available
 
@@ -34,18 +41,18 @@ fun ReposListScreen(
                 if (!isConnected) {
                     ConnectivityStatusBar()
                 }
-                when (uiState) {
-                    is ReposListUiState.Success -> {
-                        ReposList(
-                            modifier = modifier.padding(innerPadding),
-                            repos = (uiState as ReposListUiState.Success).data,
-                            onListItemClick = onListItemClick
-                        )
-                    }
-                    else -> {
-
-                    }
-                }
+//                when (uiState) {
+//                    is ReposListUiState.Success -> {
+                ReposList(
+                    modifier = modifier.padding(innerPadding),
+                    lazyPagingItems = repos,
+                    onListItemClick = onListItemClick
+                )
+//                    }
+//                    else -> {
+//
+//                    }
+//                }
             }
         }
     )
@@ -54,12 +61,33 @@ fun ReposListScreen(
 @Composable
 fun ReposList(
     modifier: Modifier,
-    repos: List<RepoEntity>,
+    lazyPagingItems: LazyPagingItems<RepoEntity>,
     onListItemClick: (RepoEntity) -> Unit,
 ) {
     LazyColumn {
-        items(repos.size) { index ->
-            RepoCard(repo = repos[index], onListItemClick)
+        if (lazyPagingItems.loadState.refresh == LoadState.Loading) {
+            item {
+                Text(
+                    text = "Waiting for items to load from the backend",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentWidth(Alignment.CenterHorizontally)
+                )
+            }
+        }
+
+        items(lazyPagingItems) { item ->
+            item?.let { RepoCard(repo = it, onListItemClick) }
+        }
+
+        if (lazyPagingItems.loadState.append == LoadState.Loading) {
+            item {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentWidth(Alignment.CenterHorizontally)
+                )
+            }
         }
     }
 }
