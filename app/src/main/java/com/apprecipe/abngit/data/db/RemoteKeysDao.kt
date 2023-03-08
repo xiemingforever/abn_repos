@@ -16,4 +16,7 @@ interface RemoteKeysDao {
 
     @Query("DELETE FROM remote_keys")
     suspend fun clearAll()
+
+    @Query("SELECT created_at FROM remote_keys Order By created_at DESC LIMIT 1")
+    suspend fun getCreationTime(): Long?
 }

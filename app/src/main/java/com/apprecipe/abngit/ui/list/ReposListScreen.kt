@@ -65,27 +65,36 @@ fun ReposList(
     lazyPagingItems: LazyPagingItems<Repo>,
     onListItemClick: (Repo) -> Unit,
 ) {
-    Column(modifier = modifier) {
+    LazyColumn(modifier = modifier) {
+
         when (lazyPagingItems.loadState.refresh) {
             is LoadState.Error ->
-                LoadingStatusBar("Error: not able to load data from the backend")
-            LoadState.Loading ->
-                LoadingStatusBar("Waiting for items to load from the backend")
-            is LoadState.NotLoading -> {}
+                item { LoadingStatusBar("Error: not able to load initial data from backend") }
+            is LoadState.Loading ->
+                item { LoadingStatusBar("Loading data from backend") }
+            else -> {}
         }
 
-        LazyColumn {
-            items(lazyPagingItems) { item ->
-                item?.let { RepoCard(repo = it, onListItemClick) }
-            }
+        when (lazyPagingItems.loadState.append) {
+            is LoadState.Error ->
+                item { LoadingStatusBar("Error: not able to load data from backend") }
+            is LoadState.Loading ->
+                item { LoadingStatusBar("Loading more data from backend") }
+            else -> {}
+        }
+
+        items(lazyPagingItems) { item ->
+            item?.let { RepoCard(repo = it, onListItemClick) }
         }
 
         if (lazyPagingItems.loadState.append == LoadState.Loading) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.CenterHorizontally)
-            )
+            item {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentWidth(Alignment.CenterHorizontally)
+                )
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.apprecipe.abngit.data.db
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -7,5 +8,6 @@ import androidx.room.PrimaryKey
 data class RemoteKeys(
     @PrimaryKey val repoId: Long,
     val prevKey: Int?,
-    val nextKey: Int?
+    val nextKey: Int?,
+    @ColumnInfo(name = "created_at") val createdAt: Long = System.currentTimeMillis()
 )

@@ -12,6 +12,7 @@ import com.apprecipe.abngit.data.db.RemoteKeys
 import com.apprecipe.abngit.data.model.Repo
 import retrofit2.HttpException
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 private const val STARTING_PAGE_INDEX = 1
 
@@ -22,7 +23,15 @@ class ReposRemoteMediator(
 ) : RemoteMediator<Int, Repo>() {
 
     override suspend fun initialize(): InitializeAction {
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
+        // Refresh if the cached data is older than one hour
+        val cacheTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
+        return if (System.currentTimeMillis() - (db.remoteKeysDao().getCreationTime()
+                ?: 0) < cacheTimeout
+        ) {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        } else {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        }
     }
 
     override suspend fun load(
@@ -55,7 +64,7 @@ class ReposRemoteMediator(
 
         return try {
             val repos = api.getGitRepos(page, state.config.pageSize).map { it.toRepoEntity() }
-            val endOfPaginationReached = repos.isEmpty()
+            val endOfPaginationReached = repos.size < state.config.pageSize
 
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
