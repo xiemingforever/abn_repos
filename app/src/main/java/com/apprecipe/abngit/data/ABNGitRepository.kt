@@ -25,5 +25,5 @@ class ABNGitRepository @Inject constructor(
         database.repoDao().pagingSource()
     }.flow
 
-    suspend fun getRepo(id: Int): RepoEntity = database.repoDao().findRepoById(id)
+    suspend fun getRepo(id: Long): RepoEntity = database.repoDao().findRepoById(id)
 }

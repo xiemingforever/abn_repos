@@ -29,9 +29,9 @@ fun MyAppNavHost(
         }
         composable(
             "details/{id}",
-            arguments = listOf(navArgument("id") { type = NavType.IntType })
+            arguments = listOf(navArgument("id") { type = NavType.LongType })
         ) { backStackEntry ->
-            backStackEntry.arguments?.getInt("id")?.let { RepoDetailsScreen(repoId = it) }
+            backStackEntry.arguments?.getLong("id")?.let { RepoDetailsScreen(repoId = it) }
         }
     }
 }

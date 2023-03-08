@@ -27,7 +27,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun RepoDetailsScreen(
     modifier: Modifier = Modifier,
-    repoId: Int,
+    repoId: Long,
     viewModel: RepoDetailsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()

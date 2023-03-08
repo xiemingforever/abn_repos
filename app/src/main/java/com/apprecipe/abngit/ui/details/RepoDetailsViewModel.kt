@@ -20,7 +20,7 @@ class RepoDetailsViewModel @Inject constructor(
         MutableStateFlow(RepoDetailsUiState.Loading)
     val uiState: StateFlow<RepoDetailsUiState> get() = _uiState
 
-    fun fetchRepo(id: Int) {
+    fun fetchRepo(id: Long) {
         viewModelScope.launch {
             try {
                 _uiState.update { RepoDetailsUiState.Success(repository.getRepo(id)) }

@@ -6,7 +6,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class RepoNetwork(
-    val id: Int,
     val name: String,
     @Json(name = "full_name") val fullName: String,
     val description: String?,
@@ -30,7 +29,6 @@ enum class RepoVisibility(val string: String) {
 }
 
 fun RepoNetwork.toRepoEntity(page: Long): RepoEntity = RepoEntity(
-    id = this.id,
     name = this.name,
     fullName = this.fullName,
     description = this.description,

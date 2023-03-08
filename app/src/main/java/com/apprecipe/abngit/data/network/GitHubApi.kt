@@ -3,7 +3,7 @@ package com.apprecipe.abngit.data.network
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-const val NETWORK_PAGE_SIZE = 10
+const val NETWORK_PAGE_SIZE = 20
 
 interface GitHubApi {
 

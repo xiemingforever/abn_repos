@@ -12,7 +12,7 @@ interface RepoDao {
     fun loadAllRepos(): List<RepoEntity>
 
     @Query("SELECT * FROM repos WHERE id = :id")
-    suspend fun findRepoById(id: Int): RepoEntity
+    suspend fun findRepoById(id: Long): RepoEntity
 
     @Query("SELECT * FROM repos")
     fun pagingSource(): PagingSource<Int, RepoEntity>
@@ -21,7 +21,7 @@ interface RepoDao {
     suspend fun clearAll()
 }
 
-@Database(entities = [RepoEntity::class], version = 1)
+@Database(entities = [RepoEntity::class], version = 2)
 abstract class AbnRepoDb : RoomDatabase() {
     abstract fun repoDao(): RepoDao
 }
