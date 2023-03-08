@@ -3,8 +3,8 @@ package com.apprecipe.abngit.di
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
-import com.apprecipe.abngit.data.database.AbnRepoDb
-import com.apprecipe.abngit.data.network.GitHubApi
+import com.apprecipe.abngit.data.api.GitHubApi
+import com.apprecipe.abngit.data.db.AbnRepoDb
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

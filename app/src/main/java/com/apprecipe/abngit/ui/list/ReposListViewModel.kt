@@ -3,7 +3,7 @@ package com.apprecipe.abngit.ui.list
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
 import com.apprecipe.abngit.data.ABNGitRepository
-import com.apprecipe.abngit.data.database.RepoEntity
+import com.apprecipe.abngit.data.model.Repo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -27,11 +27,11 @@ class ReposListViewModel @Inject constructor(
 //        }
 //    }
 
-    fun getRepos(): Flow<PagingData<RepoEntity>> = repository.reposOfABN()
+    fun getRepos(): Flow<PagingData<Repo>> = repository.getReposStream()
 }
 
 //sealed class ReposListUiState {
-//    data class Success(val data: List<RepoEntity>) : ReposListUiState()
+//    data class Success(val data: List<Repo>) : ReposListUiState()
 //    object Loading : ReposListUiState()
 //    data class Error(val exception: Throwable) : ReposListUiState()
 //}

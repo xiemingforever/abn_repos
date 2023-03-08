@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.apprecipe.abngit.data.database.RepoEntity
+import com.apprecipe.abngit.data.model.Repo
 import com.apprecipe.abngit.ui.list.RepoExtraInfo
 import com.apprecipe.abngit.ui.list.RepoTitle
 import com.apprecipe.abngit.ui.shared.ConnectivityStatusBar
@@ -60,7 +60,7 @@ fun RepoDetailsScreen(
 @Composable
 fun RepoDetails(
     modifier: Modifier,
-    repo: RepoEntity
+    repo: Repo
 ) {
     Column(modifier = modifier.padding(16.dp)) {
         repo.avatarUrl?.let { HeaderImage(imageUrl = it) }

@@ -18,7 +18,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import com.apprecipe.abngit.data.database.RepoEntity
+import com.apprecipe.abngit.data.model.Repo
 import com.apprecipe.abngit.ui.shared.ConnectivityStatusBar
 import com.apprecipe.abngit.ui.shared.connectivityState
 import com.apprecipe.abngit.utils.ConnectionState
@@ -28,7 +28,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun ReposListScreen(
     modifier: Modifier = Modifier,
-    onListItemClick: (RepoEntity) -> Unit,
+    onListItemClick: (Repo) -> Unit,
     viewModel: ReposListViewModel = hiltViewModel()
 ) {
     val repos = viewModel.getRepos().collectAsLazyPagingItems()
@@ -62,8 +62,8 @@ fun ReposListScreen(
 @Composable
 fun ReposList(
     modifier: Modifier,
-    lazyPagingItems: LazyPagingItems<RepoEntity>,
-    onListItemClick: (RepoEntity) -> Unit,
+    lazyPagingItems: LazyPagingItems<Repo>,
+    onListItemClick: (Repo) -> Unit,
 ) {
     Column(modifier = modifier) {
         when (lazyPagingItems.loadState.refresh) {
@@ -73,20 +73,20 @@ fun ReposList(
                 LoadingStatusBar("Waiting for items to load from the backend")
             is LoadState.NotLoading -> {}
         }
-    }
 
-    LazyColumn {
-        items(lazyPagingItems) { item ->
-            item?.let { RepoCard(repo = it, onListItemClick) }
+        LazyColumn {
+            items(lazyPagingItems) { item ->
+                item?.let { RepoCard(repo = it, onListItemClick) }
+            }
         }
-    }
 
-    if (lazyPagingItems.loadState.append == LoadState.Loading) {
-        CircularProgressIndicator(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentWidth(Alignment.CenterHorizontally)
-        )
+        if (lazyPagingItems.loadState.append == LoadState.Loading) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+            )
+        }
     }
 }
 

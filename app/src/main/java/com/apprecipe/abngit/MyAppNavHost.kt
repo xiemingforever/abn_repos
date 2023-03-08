@@ -24,14 +24,14 @@ fun MyAppNavHost(
     ) {
         composable("list") {
             ReposListScreen(
-                onListItemClick = { repo -> navController.navigate("details/${repo.id}") },
+                onListItemClick = { repo -> navController.navigate("details/${repo.repoId}") },
             )
         }
         composable(
-            "details/{id}",
-            arguments = listOf(navArgument("id") { type = NavType.LongType })
+            "details/{repoId}",
+            arguments = listOf(navArgument("repoId") { type = NavType.LongType })
         ) { backStackEntry ->
-            backStackEntry.arguments?.getLong("id")?.let { RepoDetailsScreen(repoId = it) }
+            backStackEntry.arguments?.getLong("repoId")?.let { RepoDetailsScreen(repoId = it) }
         }
     }
 }

@@ -3,7 +3,7 @@ package com.apprecipe.abngit.ui.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apprecipe.abngit.data.ABNGitRepository
-import com.apprecipe.abngit.data.database.RepoEntity
+import com.apprecipe.abngit.data.model.Repo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,10 +20,10 @@ class RepoDetailsViewModel @Inject constructor(
         MutableStateFlow(RepoDetailsUiState.Loading)
     val uiState: StateFlow<RepoDetailsUiState> get() = _uiState
 
-    fun fetchRepo(id: Long) {
+    fun fetchRepo(repoId: Long) {
         viewModelScope.launch {
             try {
-                _uiState.update { RepoDetailsUiState.Success(repository.getRepo(id)) }
+                _uiState.update { RepoDetailsUiState.Success(repository.getRepo(repoId)) }
             } catch (exception: Exception) {
                 _uiState.update { RepoDetailsUiState.Error(exception) }
             }
@@ -32,7 +32,7 @@ class RepoDetailsViewModel @Inject constructor(
 }
 
 sealed class RepoDetailsUiState {
-    data class Success(val repo: RepoEntity) : RepoDetailsUiState()
+    data class Success(val repo: Repo) : RepoDetailsUiState()
     object Loading : RepoDetailsUiState()
     data class Error(val exception: Throwable) : RepoDetailsUiState()
 }

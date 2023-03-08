@@ -1,11 +1,12 @@
-package com.apprecipe.abngit.data.network
+package com.apprecipe.abngit.data.api
 
-import com.apprecipe.abngit.data.database.RepoEntity
+import com.apprecipe.abngit.data.model.Repo
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class RepoNetwork(
+    @Json(name = "id") val repoId: Long,
     val name: String,
     @Json(name = "full_name") val fullName: String,
     val description: String?,
@@ -28,7 +29,8 @@ enum class RepoVisibility(val string: String) {
     PRIVATE("private"),
 }
 
-fun RepoNetwork.toRepoEntity(page: Long): RepoEntity = RepoEntity(
+fun RepoNetwork.toRepoEntity(): Repo = Repo(
+    repoId = repoId,
     name = this.name,
     fullName = this.fullName,
     description = this.description,
@@ -36,5 +38,4 @@ fun RepoNetwork.toRepoEntity(page: Long): RepoEntity = RepoEntity(
     visibility = this.visibility?.string ?: "",
     isPrivate = this.isPrivate,
     htmlUrl = this.htmlUrl,
-    page = page
 )

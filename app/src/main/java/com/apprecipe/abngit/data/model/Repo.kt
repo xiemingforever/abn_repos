@@ -1,13 +1,14 @@
-package com.apprecipe.abngit.data.database
+package com.apprecipe.abngit.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "repos")
-data class RepoEntity(
+data class Repo(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
+    val generatedId: Long = 0L,
+    val repoId: Long,
     val name: String,
     @ColumnInfo(name = "full_name") val fullName: String,
     val description: String?,
@@ -15,5 +16,4 @@ data class RepoEntity(
     val visibility: String,
     val isPrivate: Boolean,
     @ColumnInfo(name = "html_url") val htmlUrl: String,
-    val page: Long
 )

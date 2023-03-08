@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.apprecipe.abngit.data.database.RepoEntity
+import com.apprecipe.abngit.data.model.Repo
 import com.apprecipe.abngit.ui.theme.ABNGitTheme
 
 @Composable
@@ -52,8 +52,8 @@ fun RepoExtraInfo(name: String, value: String) {
 
 @Composable
 fun RepoCard(
-    repo: RepoEntity,
-    navigateToDetails: (RepoEntity) -> Unit
+    repo: Repo,
+    navigateToDetails: (Repo) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -78,8 +78,9 @@ fun SimplePostPreview() {
     ABNGitTheme {
         Surface {
             RepoCard(
-                RepoEntity(
-                    id = 132,
+                Repo(
+                    generatedId = 132,
+                    repoId = 43241,
                     name = "fadsfa",
                     fullName = "fdafasf",
                     description = "ffdasfs",
@@ -87,7 +88,6 @@ fun SimplePostPreview() {
                     visibility = "fda",
                     isPrivate = false,
                     htmlUrl = "daf",
-                    page = 2L
                 ), {})
         }
     }
