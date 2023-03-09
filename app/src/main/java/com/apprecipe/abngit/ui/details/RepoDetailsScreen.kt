@@ -5,7 +5,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -13,6 +12,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.apprecipe.abngit.data.model.Repo
@@ -26,9 +26,9 @@ fun RepoDetailsScreen(
     repoId: Long,
     viewModel: RepoDetailsViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     viewModel.fetchRepo(repoId)
-    val isOnline by viewModel.networkConnectionMonitor.isConnected.collectAsState(true)
+    val isOnline by viewModel.networkConnectionMonitor.isConnected.collectAsStateWithLifecycle(true)
 
     Scaffold(
         content = { innerPadding ->
