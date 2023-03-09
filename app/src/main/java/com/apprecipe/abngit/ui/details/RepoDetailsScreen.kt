@@ -2,6 +2,8 @@ package com.apprecipe.abngit.ui.details
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -23,7 +25,8 @@ import com.apprecipe.abngit.ui.shared.RepoExtraInfo
 fun RepoDetailsScreen(
     modifier: Modifier = Modifier,
     repoId: Long,
-    viewModel: RepoDetailsViewModel = hiltViewModel()
+    viewModel: RepoDetailsViewModel = hiltViewModel(),
+    onBackClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     viewModel.fetchRepo(repoId)
@@ -31,7 +34,14 @@ fun RepoDetailsScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(text = "Repo Details") })
+            TopAppBar(
+                title = { Text(text = "Repo Details") },
+                navigationIcon = {
+                    IconButton(onClick = onBackClick) {
+                        Icon(Icons.Filled.ArrowBack, "Back icon")
+                    }
+                },
+            )
         },
         content = { innerPadding ->
             Column {

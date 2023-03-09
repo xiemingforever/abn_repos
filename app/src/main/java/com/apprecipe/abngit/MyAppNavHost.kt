@@ -31,7 +31,12 @@ fun MyAppNavHost(
             "details/{repoId}",
             arguments = listOf(navArgument("repoId") { type = NavType.LongType })
         ) { backStackEntry ->
-            backStackEntry.arguments?.getLong("repoId")?.let { RepoDetailsScreen(repoId = it) }
+            backStackEntry.arguments?.getLong("repoId")?.let {
+                RepoDetailsScreen(
+                    repoId = it,
+                    onBackClick = { navController.navigateUp() }
+                )
+            }
         }
     }
 }
