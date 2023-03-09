@@ -8,6 +8,7 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,8 +32,9 @@ fun ReposListScreen(
 ) {
     val repos = viewModel.getRepos().collectAsLazyPagingItems()
     val isOnline by viewModel.networkConnectionMonitor.isConnected.collectAsStateWithLifecycle(true)
-    var isRefreshing by remember { mutableStateOf(false) }
+    var isRefreshing by rememberSaveable { mutableStateOf(false) }
     val pullRefreshState = rememberPullRefreshState(isRefreshing, { repos.refresh() })
+    var needForceRefresh by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -47,6 +49,10 @@ fun ReposListScreen(
                 Column {
                     if (!isOnline) {
                         ConnectivityStatusBar()
+                        needForceRefresh = true
+                    } else {
+                        if (needForceRefresh) repos.refresh()
+                        needForceRefresh = false
                     }
 
                     when (repos.loadState.refresh) {
@@ -57,7 +63,9 @@ fun ReposListScreen(
                             }
                         }
                         is LoadState.Loading ->
-                            LinearProgressIndicator(modifier.fillMaxWidth())
+                            if (isOnline) {
+                                LinearProgressIndicator(modifier.fillMaxWidth())
+                            }
                         else -> {
                             isRefreshing = false
                         }
@@ -71,7 +79,9 @@ fun ReposListScreen(
                             }
                         }
                         is LoadState.Loading ->
-                            LinearProgressIndicator(modifier.fillMaxWidth())
+                            if (isOnline) {
+                                LinearProgressIndicator(modifier.fillMaxWidth())
+                            }
                         else -> {
                             isRefreshing = false
                         }
