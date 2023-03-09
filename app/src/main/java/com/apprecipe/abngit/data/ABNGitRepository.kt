@@ -10,7 +10,7 @@ import com.apprecipe.abngit.data.model.Repo
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-private const val NETWORK_PAGE_SIZE = 20
+private const val NETWORK_PAGE_SIZE = 15
 
 class ABNGitRepository @Inject constructor(
     private val database: AbnRepoDb,
@@ -22,7 +22,12 @@ class ABNGitRepository @Inject constructor(
 
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
-            config = PagingConfig(NETWORK_PAGE_SIZE),
+            config = PagingConfig(
+                pageSize = NETWORK_PAGE_SIZE,
+                initialLoadSize = NETWORK_PAGE_SIZE,
+                // A value of 0 is not recommended, for demo purpose only.
+                prefetchDistance = 0
+            ),
             remoteMediator = ReposRemoteMediator(db = database, api = api),
             pagingSourceFactory = pagingSourceFactory
         ).flow

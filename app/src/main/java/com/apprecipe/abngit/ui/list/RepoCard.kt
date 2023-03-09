@@ -65,7 +65,9 @@ fun RepoCard(
         }
         Column(modifier = Modifier.padding(vertical = 10.dp)) {
             RepoTitle(title = repo.name)
+            Spacer(Modifier.height(8.dp))
             RepoExtraInfo(name = "Visibility", value = repo.visibility) // TODO
+            Spacer(Modifier.height(8.dp))
             RepoExtraInfo(name = "Private repo", value = repo.isPrivate.toString()) // TODO
         }
     }
