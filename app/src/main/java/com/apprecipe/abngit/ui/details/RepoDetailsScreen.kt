@@ -1,16 +1,14 @@
 package com.apprecipe.abngit.ui.details
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -66,13 +64,18 @@ fun RepoDetails(
         Spacer(Modifier.height(16.dp))
         RepoTitle(title = repo.name)
         Spacer(Modifier.height(16.dp))
-        RepoTitle(title = repo.fullName)
+        BodyText(text = repo.fullName)
         Spacer(Modifier.height(16.dp))
         RepoExtraInfo(name = "Visibility", value = repo.visibility) // TODO
         Spacer(Modifier.height(16.dp))
         RepoExtraInfo(name = "Private repo", value = repo.isPrivate.toString()) // TODO
         Spacer(Modifier.height(16.dp))
-        repo.description?.let { RepoDescription(description = it) }
+        repo.description?.let { BodyText(text = it) }
+        Spacer(Modifier.height(16.dp))
+        LinkButton(
+            btnText = "Open in browser",
+            url = repo.htmlUrl
+        )
     }
 }
 
@@ -94,9 +97,17 @@ private fun HeaderImage(imageUrl: String) {
 }
 
 @Composable
-fun RepoDescription(description: String) {
+fun BodyText(text: String) {
     Text(
-        text = description,
+        text = text,
         style = MaterialTheme.typography.body1
     )
+}
+
+@Composable
+fun LinkButton(btnText: String, url: String) {
+    val uriHandler = LocalUriHandler.current
+    OutlinedButton(onClick = { uriHandler.openUri(url) }) {
+        Text(btnText)
+    }
 }
