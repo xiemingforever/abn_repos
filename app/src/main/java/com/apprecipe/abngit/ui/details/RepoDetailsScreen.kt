@@ -19,11 +19,7 @@ import com.apprecipe.abngit.data.model.Repo
 import com.apprecipe.abngit.ui.list.RepoExtraInfo
 import com.apprecipe.abngit.ui.list.RepoTitle
 import com.apprecipe.abngit.ui.shared.ConnectivityStatusBar
-import com.apprecipe.abngit.ui.shared.connectivityState
-import com.apprecipe.abngit.utils.ConnectionState
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @Composable
 fun RepoDetailsScreen(
     modifier: Modifier = Modifier,
@@ -32,13 +28,12 @@ fun RepoDetailsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     viewModel.fetchRepo(repoId)
-    val connection by connectivityState()
-    val isConnected = connection == ConnectionState.Available
+    val isOnline by viewModel.networkConnectionMonitor.isConnected.collectAsState(true)
 
     Scaffold(
         content = { innerPadding ->
             Column {
-                if (!isConnected) {
+                if (!isOnline) {
                     ConnectivityStatusBar()
                 }
                 when (uiState) {

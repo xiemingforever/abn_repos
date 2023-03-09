@@ -7,6 +7,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,11 +21,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.apprecipe.abngit.data.model.Repo
 import com.apprecipe.abngit.ui.shared.ConnectivityStatusBar
-import com.apprecipe.abngit.ui.shared.connectivityState
-import com.apprecipe.abngit.utils.ConnectionState
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @Composable
 fun ReposListScreen(
     modifier: Modifier = Modifier,
@@ -33,14 +30,29 @@ fun ReposListScreen(
 ) {
     val repos = viewModel.getRepos().collectAsLazyPagingItems()
 //    val uiState by viewModel.uiState.collectAsState()
-    val connection by connectivityState()
-    val isConnected = connection == ConnectionState.Available
+    val isOnline by viewModel.networkConnectionMonitor.isConnected.collectAsState(true)
 
     Scaffold(
         content = { innerPadding ->
             Column {
-                if (!isConnected) {
+                if (!isOnline) {
                     ConnectivityStatusBar()
+                }
+
+                when (repos.loadState.refresh) {
+                    is LoadState.Error ->
+                        LoadingStatusBar("Error: not able to load initial data from backend")
+                    is LoadState.Loading ->
+                        LoadingStatusBar("Loading data from backend")
+                    else -> {}
+                }
+
+                when (repos.loadState.append) {
+                    is LoadState.Error ->
+                        LoadingStatusBar("Error: not able to load data from backend")
+                    is LoadState.Loading ->
+                        LoadingStatusBar("Loading more data from backend")
+                    else -> {}
                 }
 //                when (uiState) {
 //                    is ReposListUiState.Success -> {
@@ -63,25 +75,9 @@ fun ReposListScreen(
 fun ReposList(
     modifier: Modifier,
     lazyPagingItems: LazyPagingItems<Repo>,
-    onListItemClick: (Repo) -> Unit,
+    onListItemClick: (Repo) -> Unit
 ) {
     LazyColumn(modifier = modifier) {
-
-        when (lazyPagingItems.loadState.refresh) {
-            is LoadState.Error ->
-                item { LoadingStatusBar("Error: not able to load initial data from backend") }
-            is LoadState.Loading ->
-                item { LoadingStatusBar("Loading data from backend") }
-            else -> {}
-        }
-
-        when (lazyPagingItems.loadState.append) {
-            is LoadState.Error ->
-                item { LoadingStatusBar("Error: not able to load data from backend") }
-            is LoadState.Loading ->
-                item { LoadingStatusBar("Loading more data from backend") }
-            else -> {}
-        }
 
         items(lazyPagingItems) { item ->
             item?.let { RepoCard(repo = it, onListItemClick) }

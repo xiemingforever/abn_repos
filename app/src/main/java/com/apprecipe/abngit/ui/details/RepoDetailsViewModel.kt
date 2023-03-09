@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apprecipe.abngit.data.ABNGitRepository
 import com.apprecipe.abngit.data.model.Repo
+import com.apprecipe.abngit.utils.NetworkConnectionMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RepoDetailsViewModel @Inject constructor(
-    private val repository: ABNGitRepository
+    private val repository: ABNGitRepository,
+    val networkConnectionMonitor: NetworkConnectionMonitor
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<RepoDetailsUiState> =

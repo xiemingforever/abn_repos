@@ -1,6 +1,7 @@
 package com.apprecipe.abngit.di
 
 import android.content.Context
+import android.net.ConnectivityManager
 import android.util.Log
 import androidx.room.Room
 import com.apprecipe.abngit.data.api.GitHubApi
@@ -46,4 +47,9 @@ class AppModule {
             appContext,
             AbnRepoDb::class.java, "abn_repo.db"
         ).build()
+
+    @Singleton
+    @Provides
+    fun provideConnectivityManager(@ApplicationContext context: Context): ConnectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 }
