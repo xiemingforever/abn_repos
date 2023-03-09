@@ -22,6 +22,7 @@ import com.apprecipe.abngit.data.model.Repo
 import com.apprecipe.abngit.ui.list.RepoTitle
 import com.apprecipe.abngit.ui.shared.ConnectivityStatusBar
 import com.apprecipe.abngit.ui.shared.RepoExtraInfo
+import com.apprecipe.abngit.ui.shared.WarningStatusBar
 
 @Composable
 fun RepoDetailsScreen(
@@ -40,7 +41,10 @@ fun RepoDetailsScreen(
                 title = { Text(text = stringResource(R.string.details_screen_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(Icons.Filled.ArrowBack, stringResource(R.string.content_description_back_button))
+                        Icon(
+                            Icons.Filled.ArrowBack,
+                            stringResource(R.string.content_description_back_button)
+                        )
                     }
                 },
             )
@@ -57,8 +61,15 @@ fun RepoDetailsScreen(
                             repo = (uiState as RepoDetailsUiState.Success).repo,
                         )
                     }
-                    else -> {
-
+                    is RepoDetailsUiState.Loading -> {
+                        if (isOnline) {
+                            LinearProgressIndicator(modifier.fillMaxWidth())
+                        }
+                    }
+                    is RepoDetailsUiState.Error -> {
+                        if (isOnline) {
+                            WarningStatusBar(stringResource(R.string.error_not_able_to_load_data))
+                        }
                     }
                 }
             }
@@ -80,7 +91,10 @@ fun RepoDetails(
         Spacer(Modifier.height(16.dp))
         RepoExtraInfo(name = stringResource(R.string.visibility), value = repo.visibility)
         Spacer(Modifier.height(16.dp))
-        RepoExtraInfo(name = stringResource(R.string.private_repo), value = repo.isPrivate.toString())
+        RepoExtraInfo(
+            name = stringResource(R.string.private_repo),
+            value = repo.isPrivate.toString()
+        )
         Spacer(Modifier.height(16.dp))
         repo.description?.let { BodyText(text = it) }
         Spacer(Modifier.height(16.dp))

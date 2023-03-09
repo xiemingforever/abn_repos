@@ -1,6 +1,5 @@
 package com.apprecipe.abngit.ui.list
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
@@ -11,10 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
@@ -24,6 +20,7 @@ import androidx.paging.compose.items
 import com.apprecipe.abngit.R
 import com.apprecipe.abngit.data.model.Repo
 import com.apprecipe.abngit.ui.shared.ConnectivityStatusBar
+import com.apprecipe.abngit.ui.shared.WarningStatusBar
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -61,7 +58,7 @@ fun ReposListScreen(
                         is LoadState.Error -> {
                             isRefreshing = false
                             if (isOnline) {
-                                LoadingStatusBar(stringResource(R.string.error_not_able_to_load_data))
+                                WarningStatusBar(stringResource(R.string.error_not_able_to_load_data))
                             }
                         }
                         is LoadState.Loading ->
@@ -77,7 +74,7 @@ fun ReposListScreen(
                         is LoadState.Error -> {
                             isRefreshing = false
                             if (isOnline) {
-                                LoadingStatusBar(stringResource(R.string.error_not_able_to_load_data))
+                                WarningStatusBar(stringResource(R.string.error_not_able_to_load_data))
                             }
                         }
                         is LoadState.Loading ->
@@ -126,17 +123,5 @@ fun ReposList(
                 )
             }
         }
-    }
-}
-
-@Composable
-fun LoadingStatusBar(text: String) {
-    Box(
-        modifier = Modifier
-            .background(Color.Yellow)
-            .fillMaxWidth()
-            .padding(8.dp), Alignment.Center
-    ) {
-        Text(text = text, color = Color.Black, fontSize = 15.sp)
     }
 }

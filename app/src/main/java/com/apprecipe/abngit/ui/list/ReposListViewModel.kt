@@ -15,25 +15,5 @@ class ReposListViewModel @Inject constructor(
     val networkConnectionMonitor: NetworkConnectionMonitor
 ) : ViewModel() {
 
-//    private val _uiState: MutableStateFlow<ReposListUiState> =
-//        MutableStateFlow(ReposListUiState.Loading)
-//    val uiState: StateFlow<ReposListUiState> get() = _uiState
-
-//    init {
-//        viewModelScope.launch {
-//            try {
-//                _uiState.update { ReposListUiState.Success(repository.getABNGitRepos(1)) }
-//            } catch (exception: Exception) {
-//                _uiState.update { ReposListUiState.Error(exception) }
-//            }
-//        }
-//    }
-
     fun getRepos(): Flow<PagingData<Repo>> = repository.getReposStream()
 }
-
-//sealed class ReposListUiState {
-//    data class Success(val data: List<Repo>) : ReposListUiState()
-//    object Loading : ReposListUiState()
-//    data class Error(val exception: Throwable) : ReposListUiState()
-//}

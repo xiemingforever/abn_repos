@@ -22,6 +22,18 @@ fun RepoExtraInfo(name: String, value: String) {
 }
 
 @Composable
+fun WarningStatusBar(text: String) {
+    Box(
+        modifier = Modifier
+            .background(Color.Yellow)
+            .fillMaxWidth()
+            .padding(8.dp), Alignment.Center
+    ) {
+        Text(text = text, color = Color.Black, fontSize = 15.sp)
+    }
+}
+
+@Composable
 fun ConnectivityStatusBar() {
     Box(
         modifier = Modifier
