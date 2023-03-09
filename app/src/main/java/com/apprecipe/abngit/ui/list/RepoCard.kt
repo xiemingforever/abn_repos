@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -16,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.apprecipe.abngit.data.model.Repo
+import com.apprecipe.abngit.ui.shared.RepoExtraInfo
 import com.apprecipe.abngit.ui.theme.ABNGitTheme
 
 @Composable
@@ -39,14 +39,6 @@ fun RepoTitle(title: String) {
         style = MaterialTheme.typography.h5,
         maxLines = 2,
         overflow = TextOverflow.Ellipsis,
-    )
-}
-
-@Composable
-fun RepoExtraInfo(name: String, value: String) {
-    Text(
-        text = "$name - $value",
-        style = MaterialTheme.typography.body1
     )
 }
 
@@ -78,19 +70,17 @@ fun RepoCard(
 @Composable
 fun SimplePostPreview() {
     ABNGitTheme {
-        Surface {
-            RepoCard(
-                Repo(
-                    generatedId = 132,
-                    repoId = 43241,
-                    name = "fadsfa",
-                    fullName = "fdafasf",
-                    description = "ffdasfs",
-                    avatarUrl = "fda",
-                    visibility = "fda",
-                    isPrivate = false,
-                    htmlUrl = "daf",
-                ), {})
-        }
+        RepoCard(
+            Repo(
+                generatedId = 132,
+                repoId = 43241,
+                name = "fadsfa",
+                fullName = "fdafasf",
+                description = "ffdasfs",
+                avatarUrl = "fda",
+                visibility = "fda",
+                isPrivate = false,
+                htmlUrl = "daf",
+            ), {})
     }
 }

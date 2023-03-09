@@ -1,10 +1,10 @@
 package com.apprecipe.abngit.ui.details
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -17,9 +17,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.apprecipe.abngit.data.model.Repo
-import com.apprecipe.abngit.ui.list.RepoExtraInfo
 import com.apprecipe.abngit.ui.list.RepoTitle
 import com.apprecipe.abngit.ui.shared.ConnectivityStatusBar
+import com.apprecipe.abngit.ui.shared.RepoExtraInfo
 
 @Composable
 fun RepoDetailsScreen(
@@ -97,6 +97,6 @@ private fun HeaderImage(imageUrl: String) {
 fun RepoDescription(description: String) {
     Text(
         text = description,
-        style = MaterialTheme.typography.bodyLarge
+        style = MaterialTheme.typography.body1
     )
 }

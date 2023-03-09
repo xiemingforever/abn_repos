@@ -52,11 +52,12 @@ fun ReposListScreen(
                     when (repos.loadState.refresh) {
                         is LoadState.Error -> {
                             isRefreshing = false
-                            LoadingStatusBar("Error: not able to load initial data from backend")
+                            if (isOnline) {
+                                LoadingStatusBar("Error: not able to load initial data from backend")
+                            }
                         }
-                        is LoadState.Loading -> {
-                            LoadingStatusBar("Loading data from backend")
-                        }
+                        is LoadState.Loading ->
+                            LinearProgressIndicator(modifier.fillMaxWidth())
                         else -> {
                             isRefreshing = false
                         }
@@ -65,11 +66,12 @@ fun ReposListScreen(
                     when (repos.loadState.append) {
                         is LoadState.Error -> {
                             isRefreshing = false
-                            LoadingStatusBar("Error: not able to load data from backend")
+                            if (isOnline) {
+                                LoadingStatusBar("Error: not able to load data from backend")
+                            }
                         }
-                        is LoadState.Loading -> {
-                            LoadingStatusBar("Loading more data from backend")
-                        }
+                        is LoadState.Loading ->
+                            LinearProgressIndicator(modifier.fillMaxWidth())
                         else -> {
                             isRefreshing = false
                         }
