@@ -79,7 +79,7 @@ fun RepoDetailsScreen(
 
 @Composable
 fun RepoDetails(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     repo: Repo
 ) {
     Column(modifier = modifier.padding(16.dp)) {

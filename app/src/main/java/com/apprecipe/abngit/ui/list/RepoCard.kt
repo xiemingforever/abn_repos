@@ -79,16 +79,17 @@ fun SimplePostPreview() {
         Surface {
             RepoCard(
                 Repo(
-                    generatedId = 132,
-                    repoId = 43241,
-                    name = "fadsfa",
-                    fullName = "fdafasf",
-                    description = "ffdasfs",
-                    avatarUrl = "fda",
-                    visibility = "fda",
+                    generatedId = 1,
+                    repoId = 112761951,
+                    name = "ToggleProc",
+                    fullName = "abnamrocoesd/ToggleProc",
+                    description = "Make your toggles manageable with this library.",
+                    avatarUrl = "https://avatars.githubusercontent.com/u/15876397?v=4",
+                    visibility = "public",
                     isPrivate = false,
-                    htmlUrl = "daf",
-                ), {})
+                    htmlUrl = "https://github.com/abnamrocoesd/ToggleProc",
+                )
+            ) {}
         }
     }
 }
