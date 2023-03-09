@@ -3,6 +3,7 @@ package com.apprecipe.abngit.ui.details
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,6 +32,9 @@ fun RepoDetailsScreen(
     val isOnline by viewModel.networkConnectionMonitor.isConnected.collectAsStateWithLifecycle(true)
 
     Scaffold(
+        topBar = {
+            TopAppBar(title = { Text(text = "Repo Details") })
+        },
         content = { innerPadding ->
             Column {
                 if (!isOnline) {

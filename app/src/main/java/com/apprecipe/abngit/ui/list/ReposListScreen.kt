@@ -3,11 +3,11 @@ package com.apprecipe.abngit.ui.list
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.material.*
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,6 +22,7 @@ import androidx.paging.compose.items
 import com.apprecipe.abngit.data.model.Repo
 import com.apprecipe.abngit.ui.shared.ConnectivityStatusBar
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ReposListScreen(
     modifier: Modifier = Modifier,
@@ -29,43 +30,62 @@ fun ReposListScreen(
     viewModel: ReposListViewModel = hiltViewModel()
 ) {
     val repos = viewModel.getRepos().collectAsLazyPagingItems()
-//    val uiState by viewModel.uiState.collectAsState()
     val isOnline by viewModel.networkConnectionMonitor.isConnected.collectAsStateWithLifecycle(true)
+    var isRefreshing by remember { mutableStateOf(false) }
+    val pullRefreshState = rememberPullRefreshState(isRefreshing, { repos.refresh() })
 
     Scaffold(
+        topBar = {
+            TopAppBar(title = { Text(text = "ABN AMRO Repos") })
+        },
         content = { innerPadding ->
-            Column {
-                if (!isOnline) {
-                    ConnectivityStatusBar()
-                }
+            Box(
+                modifier
+                    .padding(innerPadding)
+                    .pullRefresh(pullRefreshState)
+            ) {
+                Column {
+                    if (!isOnline) {
+                        ConnectivityStatusBar()
+                    }
 
-                when (repos.loadState.refresh) {
-                    is LoadState.Error ->
-                        LoadingStatusBar("Error: not able to load initial data from backend")
-                    is LoadState.Loading ->
-                        LoadingStatusBar("Loading data from backend")
-                    else -> {}
-                }
+                    when (repos.loadState.refresh) {
+                        is LoadState.Error -> {
+                            isRefreshing = false
+                            LoadingStatusBar("Error: not able to load initial data from backend")
+                        }
+                        is LoadState.Loading -> {
+                            LoadingStatusBar("Loading data from backend")
+                        }
+                        else -> {
+                            isRefreshing = false
+                        }
+                    }
 
-                when (repos.loadState.append) {
-                    is LoadState.Error ->
-                        LoadingStatusBar("Error: not able to load data from backend")
-                    is LoadState.Loading ->
-                        LoadingStatusBar("Loading more data from backend")
-                    else -> {}
+                    when (repos.loadState.append) {
+                        is LoadState.Error -> {
+                            isRefreshing = false
+                            LoadingStatusBar("Error: not able to load data from backend")
+                        }
+                        is LoadState.Loading -> {
+                            LoadingStatusBar("Loading more data from backend")
+                        }
+                        else -> {
+                            isRefreshing = false
+                        }
+                    }
+
+                    ReposList(
+                        modifier = modifier,
+                        lazyPagingItems = repos,
+                        onListItemClick = onListItemClick
+                    )
                 }
-//                when (uiState) {
-//                    is ReposListUiState.Success -> {
-                ReposList(
-                    modifier = modifier.padding(innerPadding),
-                    lazyPagingItems = repos,
-                    onListItemClick = onListItemClick
+                PullRefreshIndicator(
+                    refreshing = isRefreshing,
+                    state = pullRefreshState,
+                    modifier = Modifier.align(Alignment.TopCenter)
                 )
-//                    }
-//                    else -> {
-//
-//                    }
-//                }
             }
         }
     )
