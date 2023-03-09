@@ -6,6 +6,7 @@ import com.apprecipe.abngit.data.ABNGitRepository
 import com.apprecipe.abngit.data.model.Repo
 import com.apprecipe.abngit.utils.NetworkConnectionMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RepoDetailsViewModel @Inject constructor(
     private val repository: ABNGitRepository,
-    val networkConnectionMonitor: NetworkConnectionMonitor
+    val networkConnectionMonitor: NetworkConnectionMonitor,
+    private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<RepoDetailsUiState> =
@@ -23,7 +25,7 @@ class RepoDetailsViewModel @Inject constructor(
     val uiState: StateFlow<RepoDetailsUiState> get() = _uiState
 
     fun fetchRepo(repoId: Long) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             try {
                 _uiState.update { RepoDetailsUiState.Success(repository.getRepo(repoId)) }
             } catch (exception: Exception) {
