@@ -11,11 +11,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.apprecipe.abngit.R
 import com.apprecipe.abngit.data.model.Repo
 import com.apprecipe.abngit.ui.list.RepoTitle
 import com.apprecipe.abngit.ui.shared.ConnectivityStatusBar
@@ -35,10 +37,10 @@ fun RepoDetailsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Repo Details") },
+                title = { Text(text = stringResource(R.string.details_screen_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(Icons.Filled.ArrowBack, "Back icon")
+                        Icon(Icons.Filled.ArrowBack, stringResource(R.string.content_description_back_button))
                     }
                 },
             )
@@ -76,14 +78,14 @@ fun RepoDetails(
         Spacer(Modifier.height(16.dp))
         BodyText(text = repo.fullName)
         Spacer(Modifier.height(16.dp))
-        RepoExtraInfo(name = "Visibility", value = repo.visibility) // TODO
+        RepoExtraInfo(name = stringResource(R.string.visibility), value = repo.visibility)
         Spacer(Modifier.height(16.dp))
-        RepoExtraInfo(name = "Private repo", value = repo.isPrivate.toString()) // TODO
+        RepoExtraInfo(name = stringResource(R.string.private_repo), value = repo.isPrivate.toString())
         Spacer(Modifier.height(16.dp))
         repo.description?.let { BodyText(text = it) }
         Spacer(Modifier.height(16.dp))
         LinkButton(
-            btnText = "Open in browser",
+            btnText = stringResource(R.string.open_in_browser),
             url = repo.htmlUrl
         )
     }

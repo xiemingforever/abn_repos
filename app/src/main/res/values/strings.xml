@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">ABN Git</string>
+
+    <string name="list_screen_title">ABN AMRO Repos</string>
+    <string name="details_screen_title">Repo Details</string>
+    <string name="visibility">Visibility</string>
+    <string name="private_repo">Private repo</string>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="error_not_able_to_load_data">Error: not able to load data from backend</string>
+
+    <string name="content_description_back_button">Back button</string>
 </resources>

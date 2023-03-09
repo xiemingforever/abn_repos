@@ -12,6 +12,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -20,6 +21,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.apprecipe.abngit.R
 import com.apprecipe.abngit.data.model.Repo
 import com.apprecipe.abngit.ui.shared.ConnectivityStatusBar
 
@@ -38,7 +40,7 @@ fun ReposListScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(text = "ABN AMRO Repos") })
+            TopAppBar(title = { Text(text = stringResource(R.string.list_screen_title)) })
         },
         content = { innerPadding ->
             Box(
@@ -59,7 +61,7 @@ fun ReposListScreen(
                         is LoadState.Error -> {
                             isRefreshing = false
                             if (isOnline) {
-                                LoadingStatusBar("Error: not able to load initial data from backend")
+                                LoadingStatusBar(stringResource(R.string.error_not_able_to_load_data))
                             }
                         }
                         is LoadState.Loading ->
@@ -75,7 +77,7 @@ fun ReposListScreen(
                         is LoadState.Error -> {
                             isRefreshing = false
                             if (isOnline) {
-                                LoadingStatusBar("Error: not able to load data from backend")
+                                LoadingStatusBar(stringResource(R.string.error_not_able_to_load_data))
                             }
                         }
                         is LoadState.Loading ->
