@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ABN Git</string>
+    <string name="app_name">ABN Repos</string>
 
     <string name="list_screen_title">ABN AMRO Repos</string>
     <string name="details_screen_title">Repo Details</string>
