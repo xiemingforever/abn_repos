@@ -33,3 +33,9 @@ The app is built with Jetpack Compose.
 **Material Theming**
 
 **MockK**
+
+## Demo
+
+
+https://user-images.githubusercontent.com/1212597/224265322-4287ac41-d3b8-4eba-8696-64a76cc2412c.mp4
+
