@@ -110,7 +110,7 @@ fun ReposList(
 ) {
     LazyColumn(modifier = modifier) {
 
-        items(lazyPagingItems) { item ->
+        items(items = lazyPagingItems, key = { it.repoId }) { item ->
             item?.let { RepoCard(repo = it, onListItemClick) }
         }
 

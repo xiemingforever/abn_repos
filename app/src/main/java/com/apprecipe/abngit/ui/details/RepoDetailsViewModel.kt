@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,7 +23,7 @@ class RepoDetailsViewModel @Inject constructor(
 
     private val _uiState: MutableStateFlow<RepoDetailsUiState> =
         MutableStateFlow(RepoDetailsUiState.Loading)
-    val uiState: StateFlow<RepoDetailsUiState> get() = _uiState
+    val uiState: StateFlow<RepoDetailsUiState> get() = _uiState.asStateFlow()
 
     fun fetchRepo(repoId: Long) {
         viewModelScope.launch(dispatcher) {
