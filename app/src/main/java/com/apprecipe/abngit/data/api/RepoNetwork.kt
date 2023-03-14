@@ -30,7 +30,7 @@ enum class RepoVisibility(val string: String) {
 }
 
 fun RepoNetwork.toRepoEntity(): Repo = Repo(
-    repoId = repoId,
+    repoId = this.repoId,
     name = this.name,
     fullName = this.fullName,
     description = this.description,

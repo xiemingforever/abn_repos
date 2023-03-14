@@ -48,12 +48,12 @@ fun RepoTitle(title: String) {
 @Composable
 fun RepoCard(
     repo: Repo,
-    navigateToDetails: (Repo) -> Unit
+    onRepoCardClick: (Repo) -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = { navigateToDetails(repo) })
+            .clickable(onClick = { onRepoCardClick(repo) })
     ) {
         if (repo.avatarUrl != null) {
             RepoImage(imageUrl = repo.avatarUrl, modifier = Modifier.padding(16.dp))
@@ -74,7 +74,7 @@ fun RepoCard(
 @Preview("Repo card")
 @Preview("Repo card (dark)", uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun SimplePostPreview() {
+fun RepoCardPreview() {
     ABNGitTheme {
         Surface {
             RepoCard(

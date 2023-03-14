@@ -24,7 +24,7 @@ class RepoCardTest {
         composeTestRule.setContent {
             ABNGitTheme {
                 Surface {
-                    RepoCard(repo = repo, navigateToDetails = {})
+                    RepoCard(repo = repo, onRepoCardClick = {})
                 }
             }
         }

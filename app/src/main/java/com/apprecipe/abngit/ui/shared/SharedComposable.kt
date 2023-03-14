@@ -10,8 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.apprecipe.abngit.R
 
 @Composable
 fun RepoExtraInfo(name: String, value: String) {
@@ -27,7 +29,8 @@ fun WarningStatusBar(text: String) {
         modifier = Modifier
             .background(Color.Yellow)
             .fillMaxWidth()
-            .padding(8.dp), Alignment.Center
+            .padding(8.dp),
+        contentAlignment = Alignment.Center
     ) {
         Text(text = text, color = Color.Black, fontSize = 15.sp)
     }
@@ -39,8 +42,9 @@ fun ConnectivityStatusBar() {
         modifier = Modifier
             .background(Color.Red)
             .fillMaxWidth()
-            .padding(4.dp), Alignment.Center
+            .padding(4.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Text("No Internet", color = Color.White, fontSize = 14.sp)
+        Text(stringResource(R.string.no_internet), color = Color.White, fontSize = 14.sp)
     }
 }

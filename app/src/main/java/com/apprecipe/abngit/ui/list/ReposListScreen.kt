@@ -111,7 +111,7 @@ fun ReposList(
     LazyColumn(modifier = modifier) {
 
         items(items = lazyPagingItems, key = { it.repoId }) { item ->
-            item?.let { RepoCard(repo = it, onListItemClick) }
+            item?.let { RepoCard(repo = it, onRepoCardClick = onListItemClick) }
         }
 
         if (lazyPagingItems.loadState.append == LoadState.Loading) {
